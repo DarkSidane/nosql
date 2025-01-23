@@ -1,115 +1,97 @@
-# Redis Tutorial Guide
+# Tutoriel Redis : Commandes de Base
 
-## Basic Key-Value Operations
+## Configuration Initiale
 
-### Setting and Getting Simple Keys
+### Démarrage du Serveur Redis
 ```bash
-# Set a simple key-value pair
+redis-server
+```
+- Lance le serveur Redis sur le port par défaut 6379
+- Affiche les informations de configuration et de démarrage
+
+### Connexion au Client Redis
+```bash
+redis-cli
+```
+- Ouvre une interface en ligne de commande pour interagir avec Redis
+
+## Commandes de Chaînes (Strings)
+
+### Définir une Valeur
+```bash
 SET demo "Bonjour"
-
-# Set a key with a user identifier
 SET user:1234 "Samir"
+```
+- `SET` crée ou met à jour une clé avec une valeur
+- Permet d'utiliser des clés structurées comme `user:1234`
 
-# Delete a specific key
+### Supprimer une Clé
+```bash
 DEL user:1234
 ```
-> *Note*: These commands demonstrate basic key-value storage and deletion in Redis.
+- Supprime complètement une clé et sa valeur
 
-### Numeric Incrementation and Decrementation
+## Manipulation de Nombres
+
+### Incrémenter et Décrémenter
 ```bash
-# Set a numeric key and initialize
 SET 1mars 0
-
-# Increment a numeric key
-INCR 1mars  # Increases value to 1, 2, 3, 4, 5
-
-# Decrement a numeric key
-DECR 1mars  # Reduces value to 4, 3
+INCR 1mars  # Résultat : 1, 2, 3, 4, 5
+DECR 1mars  # Résultat : 4, 3
 ```
-> *Note*: `INCR` and `DECR` are atomic operations useful for counters and unique identifiers.
+- `INCR` augmente la valeur de 1
+- `DECR` diminue la valeur de 1
 
-## Key Expiration
+## Gestion de l'Expiration des Clés
 
-### Setting Expiration on Keys
+### Définir une Expiration
 ```bash
-# Set a key with a value
-SET macle "mavaleur"
-
-# Check time-to-live (TTL) initially
-TTL macle  # Returns -1 (no expiration)
-
-# Set expiration to 120 seconds
-EXPIRE macle 120  # Returns 1 (success)
-
-# Check remaining TTL
-TTL macle  # Returns remaining seconds
-
-# Delete the key
-DEL macle
+SET macle mavaleur
+EXPIRE macle 120  # Expire dans 120 secondes
+TTL macle  # Affiche le temps restant
 ```
-> *Note*: Expiration is useful for temporary data like cache or session management.
+- `EXPIRE` définit un délai d'expiration pour une clé
+- `TTL` (Time To Live) montre le temps restant avant expiration
 
-## List Operations
+## Listes
 
-### Creating and Manipulating Lists
+### Manipulation de Liste
 ```bash
-# Push items to the right of a list
 RPUSH mescours "BDA"
 RPUSH mescours "Services Web"
-
-# Retrieve list contents
-LRANGE mescours 0 -1  # Show all items
-LRANGE mescours 0 0   # Show first item
-LRANGE mescours 1 1   # Show second item
-
-# Remove and return the first item
-LPOP mescours
-
-# Multiple list operations
-RPUSH mescours "Services Web"  # Add multiple times
+LRANGE mescours 0 -1  # Affiche tous les éléments
+LPOP mescours  # Supprime le premier élément
 ```
-> *Note*: Lists in Redis are ordered collections allowing efficient push/pop operations.
+- `RPUSH` ajoute un élément à la fin de la liste
+- `LRANGE` permet de visualiser les éléments
+- `LPOP` supprime et retourne le premier élément
 
-## Set Operations
+## Ensembles (Sets)
 
-### Managing Sets
+### Gestion d'Ensembles
 ```bash
-# Add unique members to a set
-SADD utilisateur "Augustin"
-SADD utilisateur "Ines"
-SADD utilisateur "Samir"
-SADD utilisateur "Marc"
-
-# Show all set members
-SMEMBERS utilisateur
-
-# Remove a member from a set
-SREM utilisateur "Marc"
-
-# Create another set
-SADD autreUtilisateurs "Antoine"
-SADD autreUtilisateurs "Philippe"
-
-# Union of two sets
-SUNION utilisateur autreUtilisateurs
+SADD utilisateur "Augustin" "Ines" "Samir" "Marc"
+SMEMBERS utilisateur  # Liste tous les membres
+SREM utilisateur "Marc"  # Supprime un élément
+SADD autreUtilisateurs "Antoine" "Philippe"
+SUNION utilisateur autreUtilisateurs  # Union de deux ensembles
 ```
-> *Note*: Sets store unique, unordered elements and support set operations like union.
+- `SADD` ajoute des éléments uniques à un ensemble
+- `SMEMBERS` affiche tous les éléments
+- `SREM` supprime un élément
+- `SUNION` combine deux ensembles sans doublons
 
-## Common Pitfalls and Tips
+## Bonnes Pratiques
 
-- Always specify both key and value for `SET`
-- Be careful with key names (avoid spaces, special characters)
-- Use appropriate data structures for your use case
-- Remember that Redis is an in-memory database
+- Utilisez des noms de clés significatifs et structurés
+- Pensez à la gestion des expirations pour optimiser la mémoire
+- Les ensembles sont parfaits pour stocker des collections uniques
 
-## Recommended Practices
+## Erreurs Courantes à Éviter
 
-1. Use meaningful key namespaces (e.g., `user:1234`)
-2. Leverage Redis data structures for efficient data management
-3. Be mindful of memory usage with large datasets
-4. Use expiration for temporal data
+- Utiliser `SET` sans arguments
+- Confondre types de données (ex: `get` sur une liste)
+- Ne pas gérer les expirations de clés
 
-## Learning Resources
-
-- [Official Redis Documentation](https://redis.io/documentation)
-- [Redis Command Reference](https://redis.io/commands)
+## Ressources
+https://www.youtube.com/watch?v=qeEY4giT3RM
