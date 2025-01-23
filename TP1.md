@@ -81,17 +81,5 @@ SUNION utilisateur autreUtilisateurs  # Union de deux ensembles
 - `SREM` supprime un élément
 - `SUNION` combine deux ensembles sans doublons
 
-## Bonnes Pratiques
-
-- Utilisez des noms de clés significatifs et structurés
-- Pensez à la gestion des expirations pour optimiser la mémoire
-- Les ensembles sont parfaits pour stocker des collections uniques
-
-## Erreurs Courantes à Éviter
-
-- Utiliser `SET` sans arguments
-- Confondre types de données (ex: `get` sur une liste)
-- Ne pas gérer les expirations de clés
-
 ## Ressources
 https://www.youtube.com/watch?v=qeEY4giT3RM
