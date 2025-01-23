@@ -1,0 +1,169 @@
+# Lancement du serveur
+(base) sidanealp@Mac nosql % redis-server
+6449:C 23 Jan 2025 14:20:47.182 * oO0OoO0OoO0Oo Redis is starting o
+O0OoO0OoO0Oo
+6449:C 23 Jan 2025 14:20:47.182 * Redis version=7.2.7, bits=64, com
+mit=00000000, modified=0, pid=6449, just started
+6449:C 23 Jan 2025 14:20:47.182 # Warning: no config file specified
+, using the default config. In order to specify a config file use r
+edis-server /path/to/redis.conf
+6449:M 23 Jan 2025 14:20:47.183 * Increased maximum number of open 
+files to 10032 (it was originally set to 256).
+6449:M 23 Jan 2025 14:20:47.183 * monotonic clock: POSIX clock_gett
+ime
+                _._                                                
+  
+           _.-``__ ''-._                                           
+  
+      _.-``    `.  `_.  ''-._           Redis 7.2.7 (00000000/0) 64
+ bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                 
+ 
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 6449
+  `-._    `-._  `-./  _.-'    _.-'                                 
+  
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                
+  
+ |    `-._`-._        _.-'_.-'    |           https://redis.io     
+  
+  `-._    `-._`-.__.-'_.-'    _.-'                                 
+  
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                
+  
+ |    `-._`-._        _.-'_.-'    |                                
+  
+  `-._    `-._`-.__.-'_.-'    _.-'                                 
+  
+      `-._    `-.__.-'    _.-'                                     
+  
+          `-._        _.-'                                         
+  
+              `-.__.-'                                             
+  
+
+6449:M 23 Jan 2025 14:20:47.185 # WARNING: The TCP backlog setting 
+of 511 cannot be enforced because kern.ipc.somaxconn is set to the 
+lower value of 128.
+6449:M 23 Jan 2025 14:20:47.186 * Server initialized
+6449:M 23 Jan 2025 14:20:47.186 * Ready to accept connections tcp
+
+
+# Lancement du client
+(base) sidanealp@Mac nosql % redis-cli 
+127.0.0.1:6379> SET demo "Bonjour"
+OK
+127.0.0.1:6379> set user:1234 "Samir"
+OK
+127.0.0.1:6379> del user:1234
+(integer) 1
+127.0.0.1:6379> set 1mars
+(error) ERR wrong number of arguments for 'set' command
+127.0.0.1:6379> set 1mars 0
+OK
+127.0.0.1:6379> incr 1mars
+(integer) 1
+127.0.0.1:6379> incr 1mars
+(integer) 2
+127.0.0.1:6379> incr 1mars
+(integer) 3
+127.0.0.1:6379> incr 1mars
+(integer) 4
+127.0.0.1:6379> incr 1mars
+(integer) 5
+127.0.0.1:6379> decr 1mars
+(integer) 4
+127.0.0.1:6379> decr 1mars
+(integer) 3
+127.0.0.1:6379> set macle mavaleur
+OK
+127.0.0.1:6379> ttl macle
+(integer) -1
+127.0.0.1:6379> expire macle 120
+(integer) 1
+127.0.0.1:6379> ttl macle
+(integer) 117
+127.0.0.1:6379> del macle
+(integer) 1
+127.0.0.1:6379> RPUSH mescours "BDA"
+(integer) 1
+127.0.0.1:6379> RPUSH mescours "Services Web"
+(integer) 2
+127.0.0.1:6379> get mescours
+(error) WRONGTYPE Operation against a key holding the wrong kind of 
+value
+127.0.0.1:6379> LRANGE mescours 0 -1
+1) "BDA"
+2) "Services Web"
+127.0.0.1:6379> LRANGE mescours 0 0
+1) "BDA"
+127.0.0.1:6379> LRANGE mescours 0 1
+1) "BDA"
+2) "Services Web"
+127.0.0.1:6379> LRANGE mescours 1 1
+1) "Services Web"
+127.0.0.1:6379> LPOP mescours
+"BDA"
+127.0.0.1:6379> LRANGE mescours 0 -1
+1) "Services Web"
+127.0.0.1:6379> RPUSH mescours "Services Web"
+(integer) 2
+127.0.0.1:6379> RPUSH mescours "Services Web"
+(integer) 3
+127.0.0.1:6379> RPUSH mescours "Services Web"
+(integer) 4
+127.0.0.1:6379> RPUSH mescours "Services Web"
+(integer) 5
+127.0.0.1:6379> RPUSH mescours "Services Web"
+(integer) 6
+127.0.0.1:6379> 2A
+(error) ERR unknown command '2A', with args beginning with: 
+127.0.0.1:6379> SADD utilisateur "Augustin"
+(integer) 1
+127.0.0.1:6379> SADD utilisateur "Ines"
+(integer) 1
+127.0.0.1:6379> SADD utilisateur "Samir"
+(integer) 1
+127.0.0.1:6379> SADD utilisateur "Marc"
+(integer) 1
+127.0.0.1:6379> SADD utilisateur "Marc"
+(integer) 0
+127.0.0.1:6379> SMEMBERS utilisateur
+1) "Augustin"
+2) "Ines"
+3) "Samir"
+4) "Marc"
+127.0.0.1:6379> SREM "Marc"
+(error) ERR wrong number of arguments for 'srem' command
+127.0.0.1:6379> SREM utilisateurs "Marc"
+(integer) 0
+127.0.0.1:6379> SREM utilisateurs "Marc"
+(integer) 0
+127.0.0.1:6379> SMEMBERS utilisateur
+1) "Augustin"
+2) "Ines"
+3) "Samir"
+4) "Marc"
+127.0.0.1:6379> SREM utilisateur "Marc"
+(integer) 1
+127.0.0.1:6379> SREM utilisateur "Marc"
+(integer) 0
+127.0.0.1:6379> SMEMBERS utilisateur
+1) "Augustin"
+2) "Ines"
+3) "Samir"
+127.0.0.1:6379> SADD autreUtilisateurs
+(error) ERR wrong number of arguments for 'sadd' command
+127.0.0.1:6379> SADD autreUtilisateurs "Antoine"
+(integer) 1
+127.0.0.1:6379> SADD autreUtilisateurs "Philippe"
+(integer) 1
+127.0.0.1:6379> SUNION utilisateur autreUtilisateurs
+1) "Augustin"
+2) "Ines"
+3) "Samir"
+4) "Antoine"
+5) "Philippe"
+127.0.0.1:6379> 
+
